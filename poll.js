@@ -11,10 +11,14 @@ const HANDOFF_AT = Number(process.env.HANDOFF_AT) || 0;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const COMMIT_EVERY_MS = 1 * 60 * 1000;
 const MAX_HOURS = 24;
-const JUMP_MIN = 10;
 const STATE = 'data/state.json';
 const newJumps = () => ({ total: 0, j10: 0, j20: 0, j30: 0, hours: {} });
-const tierOf = (d) => (d >= 30 ? 30 : d >= 20 ? 20 : 10);
+const tierOf = (d) => {
+  if (d >= 10 && d <= 12) return 10;
+  if (d >= 20 && d <= 22) return 20;
+  if (d >= 30 && d <= 32) return 30;
+  return 0;
+};
 let state = { player: PLAYER, lastWave: null, hours: {}, season: { start: null, end: null }, jumps: newJumps(), past: [], updated: 0 };
 const load = () => {
   try { state = { ...state, ...JSON.parse(fs.readFileSync(STATE, 'utf8')) }; } catch {}
@@ -298,8 +302,8 @@ async function tick() {
       const h = (state.hours[k] ??= { count: 0, gain: 0 });
       h.count += 1;
       h.gain += diff;
-      if (diff >= JUMP_MIN) {
-        const t = tierOf(diff);
+      const t = tierOf(diff);
+      if (t) {
         const jh = (state.jumps.hours[k] ??= { j10: 0, j20: 0, j30: 0 });
         jh['j' + t] += 1;
         state.jumps['j' + t] += 1;
