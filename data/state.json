@@ -1,6 +1,6 @@
 {
  "player": "ReynRule",
- "lastWave": 2766592,
+ "lastWave": 2766604,
  "hours": {
   "2026-11-27T06": {
    "count": 175,
@@ -95,8 +95,8 @@
    "gain": 700
   },
   "2026-11-28T05": {
-   "count": 2,
-   "gain": 8
+   "count": 5,
+   "gain": 20
   }
  },
  "season": {
@@ -168,5 +168,5 @@
    "total": 14
   }
  ],
- "updated": 1795809645026
+ "updated": 1795809707026
 }
